@@ -1,0 +1,14 @@
+---
+- name: Ejemplo de playbook para servidor remoto
+  hosts: all
+  tasks:
+    - name: Actualizar paquetes en el servidor remoto
+      become: yes
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Crear un archivo en el servidor remoto
+      file:
+        path: /tmp/ansible_test.txt
+        state: touch
