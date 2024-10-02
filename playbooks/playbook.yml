@@ -1,5 +1,5 @@
 ---
-- name: Ejemplo de playbook para servidor remoto
+- name: remote server
   hosts: all
   tasks:
     - name: Actualizar paquetes en el servidor remoto
@@ -8,7 +8,7 @@
         name: "*"
         state: latest
 
-    - name: Crear un archivo en el servidor remoto
+    - name: create file 
       file:
         path: /tmp/ansible_test.txt
         state: touch

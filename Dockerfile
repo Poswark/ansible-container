@@ -1,9 +1,8 @@
 FROM ubuntu:20.04
 
-# Establecer el entorno para que no pida interacciones durante la instalación
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Actualizar paquetes e instalar Ansible y otras dependencias necesarias
+# Install packcage and ansible 
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     apt-add-repository --yes --update ppa:ansible/ansible && \
@@ -11,10 +10,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Crear un directorio para tus playbooks
+# dir ansible
 WORKDIR /ansible
-
-# Copiar tus playbooks al contenedor
 COPY ./playbooks /ansible/playbooks
-# Establecer el comando por defecto para ejecutar un playbook
-#ENTRYPOINT ["ansible-playbook"]
