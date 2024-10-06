@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clonar repositorio') {
             steps {
-                git branch: 'feature/integration-jenkins', url: 'trunk'
+                git branch: 'trunk', url: 'https://github.com/Poswark/ansible-container.git'
             }
         }
 
