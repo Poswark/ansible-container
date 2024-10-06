@@ -6,7 +6,7 @@
 
 2.  **Run the docker container:**
     ```bash
-    docker run --rm -v $(pwd)/playbooks:/ansible/playbooks ansible-container -i /ansible/playbooks/inventory.ini /ansible/playbooks/playbook.yml
+    docker run --rm -v $(pwd)/playbooks:/ansible/playbooks poswark/ansible-container:0.0.1 ansible-playbook -i /ansible/playbooks/inventory.ini /ansible/playbooks/playbook.yml
     ```
 
 ##  Explanation

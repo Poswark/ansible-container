@@ -15,6 +15,7 @@ pipeline {
                         docker run --rm \
                         -v $(pwd)/playbooks:/ansible/playbooks \
                         poswark/ansible-container:0.0.1 \
+                        ansible-playbook \
                         -i /ansible/playbooks/inventory.ini \
                         /ansible/playbooks/playbook.yml
                     '''
