@@ -8,18 +8,18 @@ pipeline {
             }
         }
 
-        // stage('Ejecutar contenedor de Ansible') {
-        //     steps {
-        //         script {
-        //             sh '''
-        //                 docker run --rm \
-        //                 -v $(pwd)/playbooks:/ansible/playbooks \
-        //                 ansible-container \
-        //                 -i /ansible/playbooks/inventory.ini \
-        //                 /ansible/playbooks/playbook.yml
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Ejecutar contenedor de Ansible') {
+            steps {
+                script {
+                    sh '''
+                        docker run --rm \
+                        -v $(pwd)/playbooks:/ansible/playbooks \
+                        poswark/ansible-container:0.0.1 \
+                        -i /ansible/playbooks/inventory.ini \
+                        /ansible/playbooks/playbook.yml
+                    '''
+                }
+            }
+        }
     }
 }
