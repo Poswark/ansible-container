@@ -14,7 +14,7 @@ pipeline {
                     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                         sh '''
                             docker run --rm \
-                            -v $(pwd)/playbooks:/ansible/playbooks \
+                            -v $(pwd)/playbooks:/ansible/playbooks:ro \
                             -e ANSIBLE_FORCE_COLOR=1 \
                             poswark/ansible-container:0.0.1 \
                             ansible-playbook \
