@@ -42,4 +42,12 @@ pipeline {
             } 
         }
     }
+    post {
+        always {
+            script {
+                sh 'docker builder prune -f'
+                cleanWs()
+            }
+        }
+    }
 }
