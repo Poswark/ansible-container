@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr:'10'))
+        timeout(time: 5, unit: 'MINUTES')
+        ansiColor('xterm')
+    }
     triggers {
         cron('0 7 * * *')
     }
@@ -19,7 +24,6 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'ANSIBLE_USER', passwordVariable: 'ANSIBLE_PASS')]) {
                     script {    
-                        wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                             sh '''
                                 docker run --rm \
                                 -v $(pwd)/playbooks:/ansible/playbooks \
@@ -33,7 +37,6 @@ pipeline {
                                 --extra-vars "ansible_user=${ANSIBLE_USER} ansible_password=${ANSIBLE_PASS}" 
 
                             '''
-                        }
                     }
                 }
             } 
