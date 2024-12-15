@@ -1,7 +1,7 @@
 pipeline {
     agent any
     options {
-        buildDiscarder(logRotator(numToKeepStr: '10'))
+        buildDiscarder(logRotator(numToKeepStr:'10'))
         timeout(time: 5, unit: 'MINUTES')
         ansiColor('xterm')
     }
@@ -11,40 +11,42 @@ pipeline {
     stages {
         stage('Clonar repositorio') {
             steps {
-                script {
+                script{ 
                     retry(3) {
                         git branch: 'trunk', url: 'https://github.com/Poswark/ansible-container.git'
+                        }
                     }
                 }
             }
-        }
+        
+
         stage('Ejecutar contenedor de Ansible') {
             steps {
-                withCredentials([file(credentialsId: 'ansible-key-pem', variable: 'ANSIBLE_PEM')]) {
-                    script {
-                        sh '''
-                            docker run --rm \
+                withCredentials([usernamePassword(credentialsId: 'ansible-creds', usernameVariable: 'ANSIBLE_USER', passwordVariable: 'ANSIBLE_PASS')]) {
+                    script {    
+                            sh '''
+                                docker run --rm \
                                 -v $(pwd)/playbooks:/ansible/playbooks \
-                                -v $ANSIBLE_PEM:/root/.ssh/boxung.pem:ro \
                                 -e ANSIBLE_FORCE_COLOR=1 \
+                                -e ANSIBLE_USER=$ANSIBLE_USER \
+                                -v $KEY_PATH:/root/.ssh/boxung.pem:ro \
                                 -e ANSIBLE_PRIVATE_KEY_FILE=/root/.ssh/boxung.pem \
                                 poswark/ansible-container:0.0.2 \
                                 ansible-playbook \
                                 -i /ansible/playbooks/inventory.ini \
-                                /ansible/playbooks/playbook.yml
-                        '''
+                                /ansible/playbooks/playbook.yml \
+                                --extra-vars "ansible_user=${ANSIBLE_USER} ansible_password=${ANSIBLE_PASS}" 
+
+                            '''
                     }
                 }
-            }
+            } 
         }
     }
     post {
         always {
             script {
-                // Limpieza de Docker y del workspace
-                sh '''
-                    docker builder prune -f
-                '''
+                sh 'docker builder prune -f'
                 cleanWs()
             }
         }
