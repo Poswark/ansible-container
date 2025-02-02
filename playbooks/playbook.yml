@@ -5,8 +5,8 @@
   tasks:
     - name: Mostrar el valor de profile
       debug:
-        msg: "El perfil actual es: {{ profile }}"
-        
+        msg: "El valor de profile es {{ lookup('env', 'ANSIBLE_PROFILE') }}"
+
     - name: create file for dev and uat
       file:
         path: /tmp/ansible_test.txt
