@@ -1,8 +1,20 @@
----
 - name: remote server
   hosts: all
+  vars:
+    profile: "{{ profile }}" 
   tasks:
-    - name: create file 
+    - name: Mostrar el valor de profile
+      debug:
+        msg: "El perfil actual es: {{ profile }}"
+        
+    - name: create file for dev and uat
       file:
         path: /tmp/ansible_test.txt
         state: touch
+      when: profile == "dev" or profile == "uat"
+
+    - name: create file for prd
+      file:
+        path: /tmp/ansible_prd.txt
+        state: touch
+      when: profile == "prd"

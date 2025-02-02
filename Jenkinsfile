@@ -5,9 +5,13 @@ pipeline {
         timeout(time: 5, unit: 'MINUTES')
         ansiColor('xterm')
     }
+    parameters {
+        choice(name: 'profile', choices: ['dev', 'uat', 'prd'], description: 'Ambiente')
+    }
     triggers {
         cron('0 7 * * *')
     }
+    
     stages {
         stage('Clonar repositorio') {
             steps {
@@ -28,6 +32,7 @@ pipeline {
                                 -v $ANSIBLE_PEM:/root/.ssh/boxung.pem:ro \
                                 -e ANSIBLE_FORCE_COLOR=1 \
                                 -e ANSIBLE_PRIVATE_KEY_FILE=/root/.ssh/boxung.pem \
+                                -e profile=${profile} \
                                 poswark/ansible-container:0.0.2 \
                                 ansible-playbook \
                                 -i /ansible/playbooks/inventory.ini \
