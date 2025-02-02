@@ -3,5 +3,5 @@
 .DS_Store
 .DS_Store?
 ._*
-playbooks/*
-*/*.ini
+*/*.bck
+playbooks/*.bck
