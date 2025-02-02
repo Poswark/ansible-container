@@ -29,9 +29,10 @@ pipeline {
                         sh '''
                             docker run --rm \
                                 -v $(pwd)/playbooks:/ansible/playbooks \
+                                -v $ANSIBLE_PEM:/root/.ssh/boxung.pem:ro \
                                 -e ANSIBLE_FORCE_COLOR=1 \
-                                -e ANSIBLE_USER=remoteuser \
-                                -e ANSIBLE_PASS=password \
+                                -e ANSIBLE_PRIVATE_KEY_FILE=/root/.ssh/boxung.pem \
+                                -e profile=${profile} \
                                 poswark/ansible-container:0.0.2 \
                                 ansible-playbook \
                                 -i /ansible/playbooks/inventory.ini \
