@@ -1,17 +1,17 @@
 - name: remote server
   hosts: all
   vars:
-    profile: "{{ profile }}" 
+    profile: "{{ profile | default('') }}"
   tasks:
     - name: Mostrar el valor de profile
       debug:
-        msg: "El valor de profile es {{ lookup('env', 'ANSIBLE_PROFILE') }}"
+        msg: "El valor de profile es '{{ profile }}'"
 
     - name: create file for dev and uat
       file:
         path: /tmp/ansible_test.txt
         state: touch
-      when: profile == "dev" or profile == "uat"
+      when: profile in ['dev', 'uat']
 
     - name: create file for prd
       file:
