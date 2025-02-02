@@ -32,11 +32,11 @@ pipeline {
                                 -v $ANSIBLE_PEM:/root/.ssh/boxung.pem:ro \
                                 -e ANSIBLE_FORCE_COLOR=1 \
                                 -e ANSIBLE_PRIVATE_KEY_FILE=/root/.ssh/boxung.pem \
-                                -e ANSIBLE_PROFILE=${profile} \
                                 poswark/ansible-container:0.0.2 \
                                 ansible-playbook \
                                 -i /ansible/playbooks/inventory.ini \
-                                /ansible/playbooks/playbook.yml 
+                                /ansible/playbooks/playbook.yml \
+                                -e ANSIBLE_PROFILE=${profile} \
                         '''
                     }
                 }
