@@ -36,7 +36,7 @@ pipeline {
                                 ansible-playbook \
                                 -i /ansible/playbooks/inventory.ini \
                                 /ansible/playbooks/playbook.yml \
-                                -e ANSIBLE_PROFILE==${profile} 
+                                -e ANSIBLE_PROFILE=${profile} 
                         '''
                     }
                 }

@@ -1,11 +1,11 @@
 - name: remote server
   hosts: all
   vars:
-    profile: "{{ profile | default('') }}"
+    profile: "{{ ANSIBLE_PROFILE | default('') }}"
   tasks:
-    - name: Mostrar el valor de profile
+    - name: Mostrar el valor de ANSIBLE_PROFILE
       debug:
-        msg: "El valor de profile es '{{ profile }}'"
+        msg: "El valor de profile es '{{ ANSIBLE_PROFILE }}'"
 
     - name: create file for dev and uat
       file:
